@@ -8,3 +8,7 @@ venv/
 # Configuraciones específicas de IDE's
 .vscode/
 .idea/
+
+# Archivos estáticos generados
+staticfiles/
+media/
