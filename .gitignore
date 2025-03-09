@@ -1,0 +1,10 @@
+
+# Carpetas de compilación
+__pycache__/
+
+# Archivos de configuraciones del entorno virtual
+venv/
+
+# Configuraciones específicas de IDE's
+.vscode/
+.idea/
