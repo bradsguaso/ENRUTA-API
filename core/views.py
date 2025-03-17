@@ -12,7 +12,7 @@ from rest_framework.pagination import PageNumberPagination
 # Create your views here.
 
 class ChargeListPagination(PageNumberPagination):
-    page_size = 2
+    page_size = 10
 
 @api_view(["GET"])
 def charge_list(request):
