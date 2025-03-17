@@ -37,3 +37,11 @@ def update_charge(request, pk):
         serializer.save()
         return Response(serializer.data)
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+@api_view(["POST"])
+@permission_classes([IsAuthenticated])
+def delete_charge(request, pk):
+    charge = Charge.objects.get(id=pk)
+    charge.delete()
+    return Response({"message": "Charge deleted successfully"}, status=status.HTTP_204_NO_CONTENT)
