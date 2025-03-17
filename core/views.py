@@ -6,9 +6,22 @@ from rest_framework.response import Response
 from rest_framework import status
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.decorators import api_view, permission_classes
+from rest_framework.pagination import PageNumberPagination
 
 
 # Create your views here.
+
+class ChargeListPagination(PageNumberPagination):
+    page_size = 2
+
+@api_view(["GET"])
+def charge_list(request):
+    charges = Charge.objects.all()
+    paginator = ChargeListPagination()
+    paginated_charges = paginator.paginate_queryset(charges, request)
+    serializer = ChargeSerializer(paginated_charges, many=True)
+    return paginator.get_paginated_response(serializer.data)
+
 
 @api_view(["POST"])
 @permission_classes([IsAuthenticated])
@@ -18,13 +31,6 @@ def create_charge(request):
         serializer.save()
         return Response(serializer.data)
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
-
-@api_view(["GET"])
-def charge_list(request):
-    charges = Charge.objects.all()
-    serializer = ChargeSerializer(charges, many=True)
-    return Response(serializer.data)
 
 
 @api_view(["PUT"])
