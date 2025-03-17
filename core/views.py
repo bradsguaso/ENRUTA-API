@@ -25,3 +25,17 @@ def charge_list(request):
     serializer = ChargeSerializer(charges, many=True)
     return Response(serializer.data)
 
+@api_view(["POST"])
+@permission_classes([IsAuthenticated])
+def update_charge(request, pk):
+    user = request.user
+    charge = Charge.objects.get(id=pk)
+    if charge.author != user:
+        return Response({"error": "You are not the author of this charge"}, status=status.HTTP_403_FORBIDDEN)
+    serializer = ChargeSerializer(charge, data=request.data)
+    if serializer.is_valid():
+        serializer.save()
+        return Response(serializer.data)
+    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
