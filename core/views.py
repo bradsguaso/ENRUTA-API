@@ -19,7 +19,7 @@ def create_charge(request):
         return Response(serializer.data)
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-@api_view(["POST"])
+@api_view(["GET"])
 def charge_list(request):
     charges = Charge.objects.all()
     serializer = ChargeSerializer(charges, many=True)
